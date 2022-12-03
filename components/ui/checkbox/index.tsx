@@ -13,6 +13,7 @@ interface Props {
   text?: string;
   placeholder?: string;
   checked?: boolean;
+  isInitial?: boolean;
 }
 
 const type = 'checkbox';
@@ -22,7 +23,7 @@ enum CheckboxState {
   UNCHECKED = 'unchecked',
 }
 
-const Checkbox: FC<Props> = ({ text, checked, placeholder }) => {
+const Checkbox: FC<Props> = ({ text, checked, placeholder, isInitial }) => {
   const [isChecked, setIsChecked] = useState(checked || false);
   const [inputValue, setInputValue] = useState(text || '');
   const checkboxClassName = isChecked

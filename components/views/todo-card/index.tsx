@@ -46,6 +46,7 @@ const TodoCard: FC<Props> = ({
     [todos],
   );
 
+  // TODO: fix problem with drag and drop order that not save
   const handleDragEnd = (result: CustomDropResult) => {
     if (!result.destination) {
       return;
@@ -67,8 +68,8 @@ const TodoCard: FC<Props> = ({
       <DragDropContext onDragEnd={handleDragEnd}>
         <Droppable droppableId="todos">
           {(provided) => (
-            <TransitionGroup component={null}>
-              <ST.List {...provided.droppableProps} ref={provided.innerRef}>
+            <ST.List {...provided.droppableProps} ref={provided.innerRef}>
+              <TransitionGroup component={null}>
                 {todos
                   .sort((a, b) => a.order - b.order)
                   .map((todo, index) => (
@@ -102,8 +103,8 @@ const TodoCard: FC<Props> = ({
                     </CSSTransition>
                   ))}
                 {provided.placeholder}
-              </ST.List>
-            </TransitionGroup>
+              </TransitionGroup>
+            </ST.List>
           )}
         </Droppable>
       </DragDropContext>

@@ -16,6 +16,7 @@ specifiers:
   react: 18.2.0
   react-beautiful-dnd: ^13.1.1
   react-dom: 18.2.0
+  react-flip-move: ^3.0.5
   react-transition-group: ^4.4.5
   styled-components: ^5.3.6
   typescript: 4.9.3
@@ -36,6 +37,7 @@ dependencies:
   react: 18.2.0
   react-beautiful-dnd: 13.1.1_biqbaboplfbrettd7655fr4n2y
   react-dom: 18.2.0_react@18.2.0
+  react-flip-move: 3.0.5_biqbaboplfbrettd7655fr4n2y
   react-transition-group: 4.4.5_biqbaboplfbrettd7655fr4n2y
   styled-components: 5.3.6_biqbaboplfbrettd7655fr4n2y
   typescript: 4.9.3
@@ -2097,6 +2099,16 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+    dev: false
+
+  /react-flip-move/3.0.5_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-Mf4XpbkUNZy9eu80iXXFIjToDvw+bnHxmKHVoositbMpV87O/EQswnXUqVovRHoTx/F+4dE+p//PyJnAT7OtPA==}
+    peerDependencies:
+      react: '>=16.3.x'
+      react-dom: '>=16.3.x'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /react-is/16.13.1:

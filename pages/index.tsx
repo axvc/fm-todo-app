@@ -1,4 +1,11 @@
-import { createContext, FC, useCallback, useEffect, useState } from 'react';
+import {
+  createContext,
+  FC,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import * as ST from './styled';
 import Image from 'next/image';
 import CustomHead from 'components/custom-head';
@@ -26,6 +33,10 @@ const Home: FC = () => {
   const [filter, setFilter] = useState<Filter>(Filters.ALL);
   const [filteredTodos, setFilteredTodos] = useState<Todo[]>([]);
   const [theme, setTheme] = useState<Theme>(Themes.LIGHT);
+  const lastOrder = useMemo(
+    () => todos.reduce((max, todo) => Math.max(max, todo.order), 0),
+    [todos],
+  );
 
   const addTodo = (todo: Todo) => setTodos([...todos, todo]);
   const editTodo = (todo: Todo) => {
@@ -95,10 +106,11 @@ const Home: FC = () => {
               <SunIcon onClick={toggleTheme} />
             )}
           </ST.Header>
-          <CreateCard addTodo={addTodo} />
+          <CreateCard lastOrder={lastOrder} addTodo={addTodo} />
           <TodoCard
             todos={filteredTodos}
             filter={filter}
+            lastOrder={lastOrder}
             editTodo={editTodo}
             removeTodo={removeTodo}
             reorderTodos={setFilteredTodos}

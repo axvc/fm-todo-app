@@ -22,6 +22,7 @@ interface CustomDropResult extends DropResult {
 interface Props {
   todos: Todo[];
   filter: Filter;
+  lastOrder: number;
   editTodo: (todo: Todo) => void;
   removeTodo: (todo: Todo) => void;
   reorderTodos: (todos: Todo[]) => void;
@@ -32,6 +33,7 @@ interface Props {
 const TodoCard: FC<Props> = ({
   todos,
   filter,
+  lastOrder,
   editTodo,
   removeTodo,
   reorderTodos,
@@ -66,7 +68,7 @@ const TodoCard: FC<Props> = ({
         <Droppable droppableId="todos">
           {(provided) => (
             <TransitionGroup component={null}>
-              <ul {...provided.droppableProps} ref={provided.innerRef}>
+              <ST.List {...provided.droppableProps} ref={provided.innerRef}>
                 {todos
                   .sort((a, b) => a.order - b.order)
                   .map((todo, index) => (
@@ -81,12 +83,14 @@ const TodoCard: FC<Props> = ({
                         index={index}
                       >
                         {(provided) => (
-                          <DraggableListItem provided={provided}>
+                          <DraggableListItem key={todo.id} provided={provided}>
                             <ST.TodoWrapper>
                               <Checkbox
                                 id={todo.id}
                                 text={todo.value}
                                 checked={todo.checked}
+                                order={todo.order}
+                                lastOrder={lastOrder}
                                 remove={removeTodo}
                                 handleChange={(todo) => editTodo(todo)}
                               />
@@ -98,7 +102,7 @@ const TodoCard: FC<Props> = ({
                     </CSSTransition>
                   ))}
                 {provided.placeholder}
-              </ul>
+              </ST.List>
             </TransitionGroup>
           )}
         </Droppable>

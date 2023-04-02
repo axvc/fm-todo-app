@@ -36,3 +36,8 @@ export const Divider = styled.div<{ theme: Theme }>`
       ? Light.VERY_LIGHT_GRAYISH_BLUE
       : Dark.VERY_DARK_GRAYISH_BLUE_HOVER};
 `;
+
+export const List = styled.ul`
+  list-style-type: none;
+  padding: 0;
+`;

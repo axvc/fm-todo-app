@@ -17,6 +17,8 @@ interface Props {
   text?: string;
   placeholder?: string;
   checked?: boolean;
+  order?: number;
+  lastOrder: number;
   isInitial?: boolean;
   remove?: (todo: Todo) => void;
   handleChange?: (todo: Todo) => void;
@@ -33,6 +35,8 @@ const Checkbox: FC<Props> = ({
   id,
   text,
   checked,
+  order,
+  lastOrder,
   placeholder,
   isInitial,
   remove,
@@ -60,7 +64,7 @@ const Checkbox: FC<Props> = ({
           value: inputValue,
           checked: isChecked,
           id: Date.now(),
-          order: Date.now(),
+          order: lastOrder + 1,
         });
       setInputValue('');
       setIsChecked(false);
@@ -71,7 +75,7 @@ const Checkbox: FC<Props> = ({
         id,
         value: inputValue,
         checked: isChecked,
-        order: Date.now(),
+        order: order || Date.now(),
       });
   };
   useEffect(() => {
@@ -109,7 +113,7 @@ const Checkbox: FC<Props> = ({
               value: inputValue,
               checked: isChecked,
               id: id || Date.now(),
-              order: Date.now(),
+              order: order || Date.now(),
             })
           }
         >

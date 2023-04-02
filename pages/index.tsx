@@ -1,27 +1,110 @@
-import { createContext, FC } from 'react';
+import { createContext, FC, useCallback, useEffect, useState } from 'react';
 import * as ST from './styled';
 import Image from 'next/image';
 import CustomHead from 'components/custom-head';
 import LightBg from 'assets/images/bg-desktop-light.jpg';
+import DarkBg from 'assets/images/bg-desktop-dark.jpg';
 import MoonIcon from 'assets/icons/icon-moon.svg';
+import SunIcon from 'assets/icons/icon-sun.svg';
 import CreateCard from 'components/views/create-card';
 import TodoCard from 'components/views/todo-card';
+import { Todo } from 'types/Todo';
+import { Theme } from 'types/Theme';
+import { Themes } from 'constants/Themes';
+import { Filter } from '../types/Filter';
+import { Filters } from '../constants/Filters';
 
-const ThemeContext = createContext<string>('light');
+export const ThemeContext = createContext<[Theme, () => void]>([
+  Themes.LIGHT,
+  () => {},
+]);
 
 const Home: FC = () => {
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [storedTodosReceived, setStoredTodosReceived] =
+    useState<boolean>(false);
+  const [filter, setFilter] = useState<Filter>(Filters.ALL);
+  const [filteredTodos, setFilteredTodos] = useState<Todo[]>([]);
+  const [theme, setTheme] = useState<Theme>(Themes.LIGHT);
+
+  const addTodo = (todo: Todo) => setTodos([...todos, todo]);
+  const editTodo = (todo: Todo) => {
+    const newTodos = todos.map((t) => (t.id === todo.id ? todo : t));
+    setTodos(newTodos);
+  };
+  const removeTodo = (todo: Todo) => {
+    console.log(todo);
+    const newTodos = todos.filter((t) => t.id !== todo.id);
+    setTodos(newTodos);
+  };
+
+  useEffect(() => {
+    const storedTodos = localStorage.getItem('todos');
+    if (storedTodos) {
+      setTodos(JSON.parse(storedTodos));
+      setFilteredTodos(JSON.parse(storedTodos));
+    }
+    setStoredTodosReceived(true);
+  }, []);
+
+  useEffect(() => {
+    if (storedTodosReceived) {
+      localStorage.setItem('todos', JSON.stringify(todos));
+      filterTodos(filter);
+    }
+  }, [todos]);
+
+  const toggleTheme = () => {
+    setTheme(theme === Themes.LIGHT ? Themes.DARK : Themes.LIGHT);
+  };
+
+  const filterTodos = useCallback(
+    (filter: Filter) => {
+      const newTodos = {
+        [Filters.ALL]: () => todos,
+        [Filters.ACTIVE]: () => todos.filter((t) => !t.checked),
+        [Filters.COMPLETED]: () => todos.filter((t) => t.checked),
+      }[filter]();
+      setFilteredTodos(newTodos);
+    },
+    [todos],
+  );
+
+  useEffect(() => {
+    filterTodos(filter);
+  }, [filter]);
+
+  const clearCompleted = () => {
+    const newTodos = todos.filter((todo) => !todo.checked);
+    setTodos(newTodos);
+  };
   return (
-    <ThemeContext.Provider value="light">
-      <ST.Container>
+    <ThemeContext.Provider value={[theme, toggleTheme]}>
+      <ST.Container theme={theme}>
         <CustomHead />
-        <Image src={LightBg} alt={'Background'} className="background" />
-        <ST.TodoContainer>
+        <Image
+          src={theme === Themes.LIGHT ? LightBg : DarkBg}
+          alt={'Background'}
+          className="background"
+        />
+        <ST.TodoContainer theme={theme}>
           <ST.Header>
             <ST.Title>Todo</ST.Title>
-            <MoonIcon />
+            {theme === Themes.LIGHT ? (
+              <MoonIcon onClick={toggleTheme} />
+            ) : (
+              <SunIcon onClick={toggleTheme} />
+            )}
           </ST.Header>
-          <CreateCard />
-          <TodoCard />
+          <CreateCard addTodo={addTodo} />
+          <TodoCard
+            todos={filteredTodos}
+            filter={filter}
+            editTodo={editTodo}
+            removeTodo={removeTodo}
+            onFilterChange={(newFilter: Filter) => setFilter(newFilter)}
+            clearCompleted={clearCompleted}
+          />
         </ST.TodoContainer>
       </ST.Container>
     </ThemeContext.Provider>

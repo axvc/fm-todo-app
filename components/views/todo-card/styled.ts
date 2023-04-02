@@ -1,15 +1,32 @@
 import styled from 'styled-components';
-import { Light } from 'constants/Colors';
+import { Dark, Light } from 'constants/Colors';
+import { Themes } from 'constants/Themes';
+import { Theme } from 'types/Theme';
 
-export const Container = styled.div`
+export const Container = styled.div<{ theme: Theme }>`
   margin-top: 16px;
   width: 100%;
   border-radius: 4px;
-  background-color: ${Light.VERY_LIGHT_GRAY};
+  background-color: ${({ theme }) =>
+    theme === Themes.LIGHT
+      ? Light.VERY_LIGHT_GRAY
+      : Dark.VERY_DARK_DESATURATED_BLUE};
+  transition: background-color 0.2s linear;
   color: ${Light.VERY_DARK_GRAYISH_BLUE};
   box-shadow: 0 20px 50px 0 rgb(0 0 0 / 10%);
 `;
 
-export const TodoWrapper = styled.div`
-  padding: 16px;
+export const TodoWrapper = styled.div``;
+
+export const Empty = styled.div`
+  color: ${Light.LIGHT_GRAYISH_BLUE};
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 32px;
+`;
+
+export const Divider = styled.div`
+  height: 1px;
+  background-color: ${Light.VERY_LIGHT_GRAYISH_BLUE};
 `;

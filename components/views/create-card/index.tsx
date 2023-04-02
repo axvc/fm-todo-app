@@ -1,11 +1,22 @@
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 import * as ST from './styled';
 import Checkbox from 'components/ui/checkbox';
+import { Todo } from 'types/Todo';
+import { ThemeContext } from 'pages/index';
 
-const CreateCard: FC = () => {
+interface Props {
+  addTodo: (todo: Todo) => void;
+}
+
+const CreateCard: FC<Props> = ({ addTodo }) => {
+  const [theme, _] = useContext(ThemeContext);
   return (
-    <ST.Container>
-      <Checkbox placeholder={'Create a new todo...'} />
+    <ST.Container theme={theme}>
+      <Checkbox
+        placeholder={'Create a new todo...'}
+        isInitial={true}
+        handleChange={(todo) => addTodo(todo)}
+      />
     </ST.Container>
   );
 };

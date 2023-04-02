@@ -5,6 +5,7 @@ specifiers:
   '@types/node': 18.11.10
   '@types/react': 18.0.26
   '@types/react-dom': 18.0.9
+  '@types/react-transition-group': ^4.4.5
   '@types/styled-components': ^5.1.26
   eslint: 8.28.0
   eslint-config-next: 13.0.6
@@ -13,6 +14,7 @@ specifiers:
   prettier: ^2.8.0
   react: 18.2.0
   react-dom: 18.2.0
+  react-transition-group: ^4.4.5
   styled-components: ^5.3.6
   typescript: 4.9.3
 
@@ -21,6 +23,7 @@ dependencies:
   '@types/node': 18.11.10
   '@types/react': 18.0.26
   '@types/react-dom': 18.0.9
+  '@types/react-transition-group': 4.4.5
   '@types/styled-components': 5.1.26
   eslint: 8.28.0
   eslint-config-next: 13.0.6_hsf322ms6xhhd4b5ne6lb74y4a
@@ -29,6 +32,7 @@ dependencies:
   prettier: 2.8.0
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
+  react-transition-group: 4.4.5_biqbaboplfbrettd7655fr4n2y
   styled-components: 5.3.6_biqbaboplfbrettd7655fr4n2y
   typescript: 4.9.3
 
@@ -449,6 +453,12 @@ packages:
 
   /@types/react-dom/18.0.9:
     resolution: {integrity: sha512-qnVvHxASt/H7i+XG1U1xMiY5t+IHcPGUK7TDMDzom08xa7e86eCeKOiLZezwCKVxJn6NEiiy2ekgX8aQssjIKg==}
+    dependencies:
+      '@types/react': 18.0.26
+    dev: false
+
+  /@types/react-transition-group/4.4.5:
+    resolution: {integrity: sha512-juKD/eiSM3/xZYzjuzH6ZwpP+/lejltmiS3QEzV/vmb/Q8+HfDmxu+Baga8UEMGBqV88Nbg4l2hY/K2DkyaLLA==}
     dependencies:
       '@types/react': 18.0.26
     dev: false
@@ -891,6 +901,13 @@ packages:
     engines: {node: '>=6.0.0'}
     dependencies:
       esutils: 2.0.3
+    dev: false
+
+  /dom-helpers/5.2.1:
+    resolution: {integrity: sha512-nRCa7CK3VTrM2NmGkIy4cbK7IZlgBE/PYMn55rrXefr5xXDP0LdtfPnblFDoVdcAfslJ7or6iqAUnx0CCGIWQA==}
+    dependencies:
+      '@babel/runtime': 7.20.6
+      csstype: 3.1.1
     dev: false
 
   /emoji-regex/9.2.2:
@@ -2032,6 +2049,20 @@ packages:
 
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
+    dev: false
+
+  /react-transition-group/4.4.5_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-pZcd1MCJoiKiBR2NRxeCRg13uCXbydPnmB4EOeRrY7480qNWO8IIgQG6zlDkm6uRMsURXPuKq0GWtiM59a5Q6g==}
+    peerDependencies:
+      react: '>=16.6.0'
+      react-dom: '>=16.6.0'
+    dependencies:
+      '@babel/runtime': 7.20.6
+      dom-helpers: 5.2.1
+      loose-envify: 1.4.0
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /react/18.2.0:

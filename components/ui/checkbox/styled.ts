@@ -4,6 +4,9 @@ import { Colors, Light } from 'constants/Colors';
 const checkedIconPath = 'icon-check.svg';
 
 export const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 12px;
   input[type='checkbox'] {
     -webkit-appearance: none;
     appearance: none;
@@ -33,7 +36,7 @@ export const Wrapper = styled.div`
       content: url('${checkedIconPath}');
       font-size: 1.5em;
       position: absolute;
-      top: -6px;
+      top: -7px;
       right: 0.24em;
     }
   }
@@ -43,11 +46,15 @@ export const Label = styled.label`
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-grow: 1;
 `;
 
-export const Checkbox = styled.input``;
+export const Checkbox = styled.input<{ isInitial: boolean }>`
+  cursor: ${({ isInitial }) => (isInitial ? 'default' : 'pointer')};
+`;
 
 export const Input = styled.input<{ isCheckboxChecked: boolean }>`
+  font-family: 'Josefin Sans', sans-serif;
   outline: none;
   border: none;
   background: transparent;
@@ -65,4 +72,7 @@ export const Input = styled.input<{ isCheckboxChecked: boolean }>`
   }
 `;
 
-export const Span = styled.span``;
+export const RemoveIconWrapper = styled.div`
+  cursor: pointer;
+  transform: translateY(3px);
+`;

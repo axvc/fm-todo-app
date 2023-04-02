@@ -1,19 +1,23 @@
-import { ChangeEvent, FC, useState } from 'react';
+import {
+  ChangeEvent,
+  FC,
+  KeyboardEventHandler,
+  useEffect,
+  useState,
+} from 'react';
 import * as ST from './styled';
 
-import { Josefin_Sans } from '@next/font/google';
-
-const josefinSans = Josefin_Sans({
-  weight: ['400'],
-  style: ['normal', 'italic'],
-  subsets: ['latin'],
-});
+import CrossIcon from 'assets/icons/icon-cross.svg';
+import { Todo } from 'types/Todo';
 
 interface Props {
+  id?: number;
   text?: string;
   placeholder?: string;
   checked?: boolean;
   isInitial?: boolean;
+  remove?: (todo: Todo) => void;
+  handleChange?: (todo: Todo) => void;
 }
 
 const type = 'checkbox';
@@ -23,7 +27,16 @@ enum CheckboxState {
   UNCHECKED = 'unchecked',
 }
 
-const Checkbox: FC<Props> = ({ text, checked, placeholder, isInitial }) => {
+const Checkbox: FC<Props> = ({
+  id,
+  text,
+  checked,
+  placeholder,
+  isInitial,
+  remove,
+  handleChange,
+}) => {
+  const [showRemoveIcon, setShowRemoveIcon] = useState(false);
   const [isChecked, setIsChecked] = useState(checked || false);
   const [inputValue, setInputValue] = useState(text || '');
   const checkboxClassName = isChecked
@@ -32,23 +45,66 @@ const Checkbox: FC<Props> = ({ text, checked, placeholder, isInitial }) => {
   const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
+  const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (event) => {
+    event.key === 'Enter' && onBlur();
+  };
+  const onBlur = () => {
+    setTimeout(() => setShowRemoveIcon(false), 100);
+    if (!inputValue) return;
+    if (isInitial) {
+      handleChange &&
+        handleChange({
+          value: inputValue,
+          checked: isChecked,
+          id: Date.now(),
+        });
+      setInputValue('');
+      setIsChecked(false);
+    }
+    id &&
+      handleChange &&
+      handleChange({ id, value: inputValue, checked: isChecked });
+  };
+  useEffect(() => {
+    onBlur();
+  }, [isChecked]);
   return (
     <ST.Wrapper>
       <ST.Label>
         <ST.Checkbox
+          isInitial={!!isInitial}
           type={type}
           className={checkboxClassName}
           checked={isChecked}
-          onChange={() => setIsChecked((prev) => !prev)}
+          onChange={() => {
+            setIsChecked((prev) => !prev);
+          }}
+          disabled={isInitial}
         />
         <ST.Input
-          className={josefinSans.className}
           placeholder={placeholder}
           isCheckboxChecked={isChecked}
           value={inputValue}
+          onFocus={() => setShowRemoveIcon(true)}
           onChange={onInputChange}
+          onKeyDown={handleKeyDown}
+          onBlur={onBlur}
         />
       </ST.Label>
+      {!isInitial && showRemoveIcon && (
+        <ST.RemoveIconWrapper
+          onClick={() =>
+            remove &&
+            remove({
+              value: inputValue,
+              checked: isChecked,
+              id: id || Date.now(),
+            })
+          }
+        >
+          <CrossIcon />
+        </ST.RemoveIconWrapper>
+      )}
     </ST.Wrapper>
   );
 };

@@ -29,6 +29,7 @@ const Controls: FC<Props> = ({
       <ST.Filters>
         {Object.entries(Filters).map(([key, value]) => (
           <ST.Filter
+            theme={theme}
             key={key}
             selected={filter === value}
             onClick={() => onFilterChange(value)}

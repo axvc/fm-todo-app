@@ -1,9 +1,11 @@
 import styled from 'styled-components';
-import { Colors, Light } from 'constants/Colors';
+import { Colors, Dark, Light } from 'constants/Colors';
+import { Theme } from 'types/Theme';
+import { Themes } from 'constants/Themes';
 
 const checkedIconPath = 'icon-check.svg';
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.div<{ theme: Theme }>`
   display: flex;
   align-items: center;
   padding: 12px;
@@ -14,12 +16,19 @@ export const Wrapper = styled.div`
     height: 1.5em;
     border-radius: 9999px;
     margin-right: 0.5em;
-    border: 1px solid ${Light.LIGHT_GRAYISH_BLUE};
+    border: 1px solid
+      ${({ theme }) =>
+        theme === Themes.LIGHT
+          ? Light.LIGHT_GRAYISH_BLUE
+          : Dark.VERY_DARK_GRAYISH_BLUE_HOVER};
     outline: none;
     cursor: pointer;
 
     &:disabled {
-      border-color: ${Light.LIGHT_GRAYISH_BLUE};
+      border-color: ${({ theme }) =>
+        theme === Themes.LIGHT
+          ? Light.LIGHT_GRAYISH_BLUE
+          : Dark.VERY_DARK_GRAYISH_BLUE_HOVER};
       background-color: transparent;
     }
   }
@@ -53,7 +62,10 @@ export const Checkbox = styled.input<{ isInitial: boolean }>`
   cursor: ${({ isInitial }) => (isInitial ? 'default' : 'pointer')};
 `;
 
-export const Input = styled.input<{ isCheckboxChecked: boolean }>`
+export const Input = styled.input<{
+  theme: Theme;
+  isCheckboxChecked: boolean;
+}>`
   font-family: 'Josefin Sans', sans-serif;
   outline: none;
   border: none;
@@ -63,8 +75,12 @@ export const Input = styled.input<{ isCheckboxChecked: boolean }>`
     props.isCheckboxChecked ? 'line-through' : 'none'};
   color: ${(props) =>
     props.isCheckboxChecked
-      ? Light.LIGHT_GRAYISH_BLUE
-      : Light.VERY_DARK_GRAYISH_BLUE};
+      ? props.theme === Themes.LIGHT
+        ? Light.LIGHT_GRAYISH_BLUE
+        : Dark.VERY_DARK_GRAYISH_BLUE
+      : props.theme === Themes.LIGHT
+      ? Light.VERY_DARK_GRAYISH_BLUE
+      : Dark.LIGHT_GRAYISH_BLUE};
   width: 90%;
 
   &::placeholder {

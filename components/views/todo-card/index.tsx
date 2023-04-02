@@ -44,13 +44,13 @@ const TodoCard: FC<Props> = ({
                   remove={removeTodo}
                   handleChange={(todo) => editTodo(todo)}
                 />
-                <ST.Divider> </ST.Divider>
+                <ST.Divider theme={theme}> </ST.Divider>
               </ST.TodoWrapper>
             </CSSTransition>
           ))}
         </TransitionGroup>
       ) : (
-        <ST.Empty>{EMPTY_TODOS}</ST.Empty>
+        <ST.Empty theme={theme}>{EMPTY_TODOS}</ST.Empty>
       )}
       <Controls
         filter={filter}

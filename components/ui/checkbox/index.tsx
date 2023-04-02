@@ -2,6 +2,7 @@ import {
   ChangeEvent,
   FC,
   KeyboardEventHandler,
+  useContext,
   useEffect,
   useState,
 } from 'react';
@@ -9,6 +10,7 @@ import * as ST from './styled';
 
 import CrossIcon from 'assets/icons/icon-cross.svg';
 import { Todo } from 'types/Todo';
+import { ThemeContext } from 'pages';
 
 interface Props {
   id?: number;
@@ -36,6 +38,7 @@ const Checkbox: FC<Props> = ({
   remove,
   handleChange,
 }) => {
+  const [theme, _] = useContext(ThemeContext);
   const [showRemoveIcon, setShowRemoveIcon] = useState(false);
   const [isChecked, setIsChecked] = useState(checked || false);
   const [inputValue, setInputValue] = useState(text || '');
@@ -69,7 +72,7 @@ const Checkbox: FC<Props> = ({
     onBlur();
   }, [isChecked]);
   return (
-    <ST.Wrapper>
+    <ST.Wrapper theme={theme}>
       <ST.Label>
         <ST.Checkbox
           isInitial={!!isInitial}
@@ -82,6 +85,7 @@ const Checkbox: FC<Props> = ({
           disabled={isInitial}
         />
         <ST.Input
+          theme={theme}
           placeholder={placeholder}
           isCheckboxChecked={isChecked}
           value={inputValue}

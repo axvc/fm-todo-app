@@ -5,14 +5,26 @@ import { Todo } from 'types/Todo';
 import Controls from 'components/views/todo-card/controls';
 import { ThemeContext } from 'pages';
 import { Filter } from 'types/Filter';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { EMPTY_TODOS } from '../../../constants/Templates';
+import { EMPTY_TODOS } from 'constants/Templates';
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from 'react-beautiful-dnd';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import DraggableListItem from '../../ui/draggable-list-item';
+
+interface CustomDropResult extends DropResult {
+  draggableId: string;
+}
 
 interface Props {
   todos: Todo[];
   filter: Filter;
   editTodo: (todo: Todo) => void;
   removeTodo: (todo: Todo) => void;
+  reorderTodos: (todos: Todo[]) => void;
   onFilterChange: (filter: Filter) => void;
   clearCompleted: () => void;
 }
@@ -22,6 +34,7 @@ const TodoCard: FC<Props> = ({
   filter,
   editTodo,
   removeTodo,
+  reorderTodos,
   onFilterChange,
   clearCompleted,
 }) => {
@@ -30,28 +43,67 @@ const TodoCard: FC<Props> = ({
     () => todos.filter((todo) => !todo.checked).length,
     [todos],
   );
+
+  const handleDragEnd = (result: CustomDropResult) => {
+    if (!result.destination) {
+      return;
+    }
+
+    const newTodos = Array.from(todos);
+    const [reorderedItem] = newTodos.splice(result.source.index, 1);
+    newTodos.splice(result.destination.index, 0, reorderedItem);
+
+    newTodos.forEach((todo, index) => {
+      todo.order = index + 1;
+    });
+
+    reorderTodos(newTodos);
+  };
+
   return (
     <ST.Container theme={theme}>
-      {todos.length ? (
-        <TransitionGroup>
-          {todos.map((todo) => (
-            <CSSTransition key={todo.id} classNames="fade" timeout={500}>
-              <ST.TodoWrapper key={todo.id}>
-                <Checkbox
-                  id={todo.id}
-                  text={todo.value}
-                  checked={todo.checked}
-                  remove={removeTodo}
-                  handleChange={(todo) => editTodo(todo)}
-                />
-                <ST.Divider theme={theme}> </ST.Divider>
-              </ST.TodoWrapper>
-            </CSSTransition>
-          ))}
-        </TransitionGroup>
-      ) : (
-        <ST.Empty theme={theme}>{EMPTY_TODOS}</ST.Empty>
-      )}
+      <DragDropContext onDragEnd={handleDragEnd}>
+        <Droppable droppableId="todos">
+          {(provided) => (
+            <TransitionGroup component={null}>
+              <ul {...provided.droppableProps} ref={provided.innerRef}>
+                {todos
+                  .sort((a, b) => a.order - b.order)
+                  .map((todo, index) => (
+                    <CSSTransition
+                      key={todo.id}
+                      classNames="fade"
+                      timeout={500}
+                    >
+                      <Draggable
+                        key={todo.id}
+                        draggableId={String(todo.id)}
+                        index={index}
+                      >
+                        {(provided) => (
+                          <DraggableListItem provided={provided}>
+                            <ST.TodoWrapper>
+                              <Checkbox
+                                id={todo.id}
+                                text={todo.value}
+                                checked={todo.checked}
+                                remove={removeTodo}
+                                handleChange={(todo) => editTodo(todo)}
+                              />
+                              <ST.Divider theme={theme}> </ST.Divider>
+                            </ST.TodoWrapper>
+                          </DraggableListItem>
+                        )}
+                      </Draggable>
+                    </CSSTransition>
+                  ))}
+                {provided.placeholder}
+              </ul>
+            </TransitionGroup>
+          )}
+        </Droppable>
+      </DragDropContext>
+      {!todos.length && <ST.Empty theme={theme}>{EMPTY_TODOS}</ST.Empty>}
       <Controls
         filter={filter}
         unperformedCount={unperformedCount}

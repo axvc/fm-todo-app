@@ -33,7 +33,6 @@ const Home: FC = () => {
     setTodos(newTodos);
   };
   const removeTodo = (todo: Todo) => {
-    console.log(todo);
     const newTodos = todos.filter((t) => t.id !== todo.id);
     setTodos(newTodos);
   };
@@ -102,6 +101,7 @@ const Home: FC = () => {
             filter={filter}
             editTodo={editTodo}
             removeTodo={removeTodo}
+            reorderTodos={setFilteredTodos}
             onFilterChange={(newFilter: Filter) => setFilter(newFilter)}
             clearCompleted={clearCompleted}
           />

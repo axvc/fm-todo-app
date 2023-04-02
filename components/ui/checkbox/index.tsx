@@ -60,13 +60,19 @@ const Checkbox: FC<Props> = ({
           value: inputValue,
           checked: isChecked,
           id: Date.now(),
+          order: Date.now(),
         });
       setInputValue('');
       setIsChecked(false);
     }
     id &&
       handleChange &&
-      handleChange({ id, value: inputValue, checked: isChecked });
+      handleChange({
+        id,
+        value: inputValue,
+        checked: isChecked,
+        order: Date.now(),
+      });
   };
   useEffect(() => {
     onBlur();
@@ -103,6 +109,7 @@ const Checkbox: FC<Props> = ({
               value: inputValue,
               checked: isChecked,
               id: id || Date.now(),
+              order: Date.now(),
             })
           }
         >

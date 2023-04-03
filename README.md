@@ -6,7 +6,7 @@ This is a solution to the [Todo app challenge on Frontend Mentor](https://www.fr
 
 - [Overview](#overview)
     - [The challenge](#the-challenge)
-    - [Demo](#demo)
+    - [Screenshots](#screenshots)
 - [My process](#my-process)
     - [Built with](#built-with)
 
@@ -26,9 +26,10 @@ Users should be able to:
 - Toggle light and dark mode
 - **Bonus**: Drag and drop to reorder items on the list
 
-### Demo
+### Screenshots
 
-![](./desc/desktop-video.mov)
+![](./desc/screenshot-1.png)
+![](./desc/screenshot-2.png)
 
 ## My process
 

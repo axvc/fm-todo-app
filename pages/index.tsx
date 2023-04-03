@@ -6,7 +6,7 @@ import {
   useMemo,
   useState,
 } from 'react';
-import * as ST from './styled';
+import * as ST from 'styles/styled';
 import Image from 'next/image';
 import CustomHead from 'components/custom-head';
 import LightBg from 'assets/images/bg-desktop-light.jpg';

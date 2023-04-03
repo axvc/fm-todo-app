@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Light, Dark } from 'constants/Colors';
 import { Theme } from 'types/Theme';
 import { Themes } from 'constants/Themes';
-import { Widths } from '../constants/Widths';
+import { Widths } from 'constants/Widths';
 
 export const Container = styled.div<{ theme: Theme }>`
   width: 100%;

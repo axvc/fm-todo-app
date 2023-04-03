@@ -18,8 +18,10 @@ import TodoCard from 'components/views/todo-card';
 import { Todo } from 'types/Todo';
 import { Theme } from 'types/Theme';
 import { Themes } from 'constants/Themes';
-import { Filter } from '../types/Filter';
-import { Filters } from '../constants/Filters';
+import { Filter } from 'types/Filter';
+import { Filters } from 'constants/Filters';
+import FiltersBlock from 'components/views/filters';
+import useDeviceDetect from 'hooks/useDeviceDetect';
 
 export const ThemeContext = createContext<[Theme, () => void]>([
   Themes.LIGHT,
@@ -27,6 +29,7 @@ export const ThemeContext = createContext<[Theme, () => void]>([
 ]);
 
 const Home: FC = () => {
+  const { isMobile } = useDeviceDetect();
   const [todos, setTodos] = useState<Todo[]>([]);
   const [storedTodosReceived, setStoredTodosReceived] =
     useState<boolean>(false);
@@ -117,6 +120,14 @@ const Home: FC = () => {
             onFilterChange={(newFilter: Filter) => setFilter(newFilter)}
             clearCompleted={clearCompleted}
           />
+          {isMobile && (
+            <ST.FiltersWrapper>
+              <FiltersBlock
+                filter={filter}
+                onFilterChange={(newFilter: Filter) => setFilter(newFilter)}
+              />
+            </ST.FiltersWrapper>
+          )}
         </ST.TodoContainer>
       </ST.Container>
     </ThemeContext.Provider>

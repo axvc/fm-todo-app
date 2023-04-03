@@ -1,4 +1,4 @@
 export enum Widths {
-  MOBILE = '375px',
+  MOBILE = '420px',
   DESKTOP = '1440px',
 }

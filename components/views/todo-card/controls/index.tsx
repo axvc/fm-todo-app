@@ -1,9 +1,10 @@
 import { FC, useContext } from 'react';
 import * as ST from './styled';
 import { ThemeContext } from 'pages';
-import { Filters } from 'constants/Filters';
 import { Filter } from 'types/Filter';
 import { ALL_COMPLETED } from 'constants/Templates';
+import useDeviceDetect from 'hooks/useDeviceDetect';
+import FiltersBlock from 'components/views/filters';
 
 interface Props {
   filter: Filter;
@@ -19,6 +20,7 @@ const Controls: FC<Props> = ({
   clearCompleted,
 }) => {
   const [theme, _] = useContext(ThemeContext);
+  const { isMobile } = useDeviceDetect();
   return (
     <ST.Container theme={theme}>
       <ST.Unperformed>
@@ -26,19 +28,10 @@ const Controls: FC<Props> = ({
           ? `${unperformedCount} items left`
           : ALL_COMPLETED}
       </ST.Unperformed>
-      <ST.Filters>
-        {Object.entries(Filters).map(([key, value]) => (
-          <ST.Filter
-            theme={theme}
-            key={key}
-            selected={filter === value}
-            onClick={() => onFilterChange(value)}
-          >
-            {value}
-          </ST.Filter>
-        ))}
-      </ST.Filters>
-      <ST.ClearCompleted onClick={() => clearCompleted()}>
+      {!isMobile && (
+        <FiltersBlock filter={filter} onFilterChange={onFilterChange} />
+      )}
+      <ST.ClearCompleted theme={theme} onClick={() => clearCompleted()}>
         Clear completed
       </ST.ClearCompleted>
     </ST.Container>

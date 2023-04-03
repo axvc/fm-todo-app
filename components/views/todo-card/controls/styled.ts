@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Colors, Dark, Light } from 'constants/Colors';
+import { Dark, Light } from 'constants/Colors';
 import { Themes } from 'constants/Themes';
 import { Theme } from 'types/Theme';
 
@@ -13,28 +13,7 @@ export const Container = styled.div`
 export const Unperformed = styled.div`
   color: ${Light.DARK_GRAYISH_BLUE};
   font-size: 14px;
-`;
-
-export const Filters = styled.div`
-  color: ${Light.DARK_GRAYISH_BLUE};
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-`;
-
-export const Filter = styled.span<{ theme: Theme; selected: boolean }>`
-  cursor: pointer;
-  font-size: 14px;
-  color: ${({ selected }) => (selected ? Colors.BRIGHT_BLUE : 'inherit')};
-
-  &:hover {
-    color: ${({ selected, theme }) =>
-      selected
-        ? Colors.BRIGHT_BLUE
-        : theme === Themes.LIGHT
-        ? Light.VERY_DARK_GRAYISH_BLUE
-        : Dark.LIGHT_GRAYISH_BLUE_HOVER};
-  }
+  white-space: nowrap;
 `;
 
 export const ClearCompleted = styled.button<{ theme: Theme }>`
@@ -42,6 +21,7 @@ export const ClearCompleted = styled.button<{ theme: Theme }>`
   color: ${Light.DARK_GRAYISH_BLUE};
   font-size: 14px;
   cursor: pointer;
+  white-space: nowrap;
 
   &:hover {
     color: ${({ theme }) =>

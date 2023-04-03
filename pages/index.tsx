@@ -22,6 +22,7 @@ import { Filter } from 'types/Filter';
 import { Filters } from 'constants/Filters';
 import FiltersBlock from 'components/views/filters';
 import useDeviceDetect from 'hooks/useDeviceDetect';
+import { GlobalStyle } from 'styles/styled';
 
 export const ThemeContext = createContext<[Theme, () => void]>([
   Themes.LIGHT,
@@ -93,6 +94,7 @@ const Home: FC = () => {
   };
   return (
     <ThemeContext.Provider value={[theme, toggleTheme]}>
+      <GlobalStyle theme={theme} />
       <ST.Container theme={theme}>
         <CustomHead />
         <Image

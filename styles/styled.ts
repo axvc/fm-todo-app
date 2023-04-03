@@ -1,8 +1,15 @@
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import { Light, Dark } from 'constants/Colors';
 import { Theme } from 'types/Theme';
 import { Themes } from 'constants/Themes';
 import { Widths } from 'constants/Widths';
+
+export const GlobalStyle = createGlobalStyle`
+  body {
+    background-color: ${({ theme }) =>
+      theme === Themes.LIGHT ? Light.VERY_LIGHT_GRAY : Dark.VERY_DARK_BLUE};
+  }
+`;
 
 export const Container = styled.div<{ theme: Theme }>`
   width: 100%;
